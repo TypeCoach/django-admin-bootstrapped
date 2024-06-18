@@ -106,13 +106,13 @@ fieldset.collapsed h2,
 	{% endif %}
 	{% if moderator_should_approve %}
 		<a href="approve/" class="btn approvelink">{% if moderation_delete_request %}{% trans "Approve delete" %}{% else %}{% trans "Approve" %} {% trans "draft" %}{% endif %}</a>
-		<a href="{% if current_site_id %}{% ifnotequal current_site_id page.site.id %}http{% if request.is_secure %}s{% endif %}://{{ page.site.domain }}{% endifnotequal %}{% endif %}{{ page.get_absolute_url }}?preview&draft=1" class="btn previewdraftlink">{% trans "Preview" %} {% trans "draft" %}</a>
+		<a href="{% if current_site_id %}{% if current_site_id != page.site.id %}http{% if request.is_secure %}s{% endif %}://{{ page.site.domain }}{% endif %}{% endif %}{{ page.get_absolute_url }}?preview&draft=1" class="btn previewdraftlink">{% trans "Preview" %} {% trans "draft" %}</a>
 	{% endif %}
 	
 	<a href="history/" class="btn btn-inverse historylink">{% trans "History" %}</a>
   
   {% if has_absolute_url %}
-  	<a href="{% if current_site_id %}{% ifnotequal current_site_id page.site.id %}http{% if request.is_secure %}s{% endif %}://{{ page.site.domain }}{% endifnotequal %}{% endif %}{{ page|preview_link:language }}?preview" class="btn viewsitelink">{% trans "View on site" %}</a>
+       <a href="{% if current_site_id %}{% if current_site_id != page.site.id %}http{% if request.is_secure %}s{% endif %}://{{ page.site.domain }}{% endif %}{% endif %}{{ page|preview_link:language }}?preview" class="btn viewsitelink">{% trans "View on site" %}</a>
   {% endif %}
   </div>
 {% endif %}{% endif %}
@@ -129,7 +129,7 @@ fieldset.collapsed h2,
 <div id="page_form_lang_tabs">
     {% for lang_code, lang_name in language_tabs %}
         <input type="button" onclick="trigger_lang_button(this,'./?language={{lang_code}}');"
-            class="language_button {% ifequal lang_code language %}selected{% else %}{% if not lang_code in filled_languages %} notfilled{% endif %}{% endifequal %}"
+            class="language_button {% if lang_code == language %}selected{% else %}{% if not lang_code in filled_languages %} notfilled{% endif %}{% endif %}"
             id="debutton" name="{{lang_code}}" value="{{lang_name}}" /> 
     {% endfor %}
 </div>
